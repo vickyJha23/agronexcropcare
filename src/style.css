@@ -153,3 +153,20 @@
 .assistant-launcher>svg{color:#d9efb9}
 .not-found-link{margin-left:24px}
 @media(max-width:700px){.not-found-link{margin:22px 0 0}}
+
+/* Expanded leadership profiles on the About page */
+.founders{grid-template-columns:1fr 1fr;gap:45px 7%;}
+.founders-heading{grid-column:1/-1;}
+.founders .leader-card{align-items:flex-start;border:1px solid #d8dfd3;background:#f7f8f2;padding:28px;border-radius:3px;gap:20px;}
+.founders .leader-card>div{min-width:0;}
+.founders .leader-card strong{display:block;font-size:12px;line-height:1.6;color:var(--green);margin:0 0 16px;}
+.founders .leader-card p{max-width:none;font-size:13px;line-height:1.8;margin:0 0 14px;}
+.founders .leader-card h4{font:700 15px Manrope;margin:24px 0 9px;color:var(--ink);}
+.founders .leader-card .leadership-motto{font-weight:700;color:var(--green);}
+.founders .leadership-motto i{font-style:normal;color:#91a77e;padding:0 3px;}
+@media(max-width:760px){.founders{grid-template-columns:1fr;gap:22px;padding:70px 7%;}.founders-heading{grid-column:auto;}.founders .leader-card{padding:21px;gap:14px;}.founders .founder-initial{flex:0 0 48px;width:48px;height:48px;font-size:11px;}}
+
+/* Product-specific package color fields */
+.product-visual,.modal-product-photo,.detail-art{background:linear-gradient(145deg,color-mix(in srgb,var(--pack-bg,#e8eee2),white 20%),var(--pack-bg,#e8eee2));}
+.product-visual{border-bottom:3px solid var(--pack-accent,#477148);}
+.product-visual:before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 92%,color-mix(in srgb,var(--pack-accent,#477148),transparent 84%),transparent 61%);pointer-events:none;}

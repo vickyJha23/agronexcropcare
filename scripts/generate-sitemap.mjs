@@ -27,7 +27,7 @@ try {
 
 const pages = [
   ['/', 'AGRONEX Crop Care | Agricultural Crop Protection in Haryana', 'Explore AGRONEX crop protection products, crop-care solutions and dealer opportunities from Sirsa, Haryana, India.'],
-  ['/about', 'About AGRONEX | Crop Care Company in Haryana', 'Learn about AGRONEX CROP CARE, founded by J.S. SHARMA and established in 2023 to serve farmers and agricultural dealers from Sirsa, Haryana.'],
+  ['/about', 'About AGRONEX | Crop Care Company in Haryana', 'Meet AGRONEX Crop Care’s founder and managing director. Learn about our farmer-focused agricultural solutions from Sirsa, Haryana.'],
   ['/products', 'Agricultural Crop Protection Products | AGRONEX', 'Browse AGRONEX insecticides, fungicides, herbicides and crop growth solutions with product formulations, crop fit and pack sizes.'],
   ['/crop-solutions', 'Crop Solutions for Indian Agriculture | AGRONEX', 'Explore AGRONEX crop-care products for cotton, wheat, paddy, soybean, mustard, chilli, tomato and other crops.'],
   ['/dealer-network', 'Become an AGRONEX Dealer | Dealer Enquiries', 'Apply to become an AGRONEX dealer. Share your agricultural business details and service area with our team.'],
@@ -39,11 +39,13 @@ let App, productData, categoryData;
 try {
   ({App, products:productData, categories:categoryData} = await ssr.ssrLoadModule('/src/main.jsx'));
   const slug = name => name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-  for (const [name, detail] of categoryData) {
-    pages.push([`/products/${slug(name)}`, `${name} Products | AGRONEX Crop Care`, `${detail} Explore AGRONEX ${name.toLowerCase()} with product details, suitable crops and pack sizes.`]);
+  const categoryDescription = name => `Browse AGRONEX ${name.toLowerCase()} for crop care. View formulations, suitable crops, application guidance and pack sizes.`;
+  const productDescription = product => `${product.name} (${product.formula}) for ${product.crops.split(',').slice(0,3).join(', ')}. View crop uses and pack sizes from AGRONEX CROP CARE.`;
+  for (const [name] of categoryData) {
+    pages.push([`/products/${slug(name)}`, `${name} Products | AGRONEX Crop Care`, categoryDescription(name)]);
   }
   for (const product of productData) {
-    pages.push([`/products/${product.slug}`, `${product.name} | AGRONEX Crop Care`, `${product.name}: ${product.formula}. Suitable crops: ${product.crops}. Explore product details and pack sizes from AGRONEX Crop Care.`]);
+    pages.push([`/products/${product.slug}`, `${product.name} | AGRONEX Crop Care`, productDescription(product)]);
   }
 } catch (error) {
   await ssr.close();
@@ -58,12 +60,12 @@ const setMeta = (html, attr, name, content) => {
 };
 
 const template = await readFile(new URL('index.html', output), 'utf8');
-const today = new Date().toISOString().slice(0, 10);
-const orgSchema = {'@context':'https://schema.org','@type':'Organization','name':'AGRONEX CROP CARE','url':siteUrl,'logo':`${siteUrl}/assets/agronex-logo.png`,'telephone':'+91 77340 76003','address':{'@type':'PostalAddress','streetAddress':'Plot No. 2937, Village: DTR, LGD Code: 32753','addressLocality':'Sirsa','addressRegion':'Haryana','postalCode':'125076','addressCountry':'IN'},'sameAs':['https://www.facebook.com/share/1JDCgwbFWn/','https://www.instagram.com/agronex_crop_care/']};
+const orgSchema = {'@context':'https://schema.org','@type':'Organization','@id':`${siteUrl}/#organization`,'name':'AGRONEX CROP CARE','url':siteUrl,'logo':`${siteUrl}/assets/agronex-logo.png`,'telephone':'+91 77340 76003','address':{'@type':'PostalAddress','streetAddress':'Plot No. 2937, Village: DTR, LGD Code: 32753','addressLocality':'Sirsa','addressRegion':'Haryana','postalCode':'125076','addressCountry':'IN'},'sameAs':['https://www.instagram.com/agronex_crop_care/']};
 for (const [route, title, description] of pages) {
   const canonical = new URL(route, siteUrl).href;
   const routeProduct = productData.find(item => route === `/products/${item.slug}`);
-  const shareImage = routeProduct ? `${siteUrl}/assets/products/${routeProduct.image}.png` : `${siteUrl}/assets/agronex-hero.jpg`;
+  const shareImage = routeProduct ? `${siteUrl}/assets/products/${routeProduct.image}.${routeProduct.imageExt || 'png'}` : `${siteUrl}/assets/agronex-hero.jpg`;
+  const shareImageAlt = routeProduct ? `${routeProduct.name} product pack from AGRONEX CROP CARE` : 'AGRONEX CROP CARE agricultural solutions';
   let html = template.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`);
   html = setMeta(html, 'name', 'description', description);
   html = setMeta(html, 'name', 'robots', 'index, follow');
@@ -72,29 +74,23 @@ for (const [route, title, description] of pages) {
   html = setMeta(html, 'property', 'og:locale', 'en_IN');
   html = setMeta(html, 'property', 'og:url', canonical);
   html = setMeta(html, 'property', 'og:image', shareImage);
+  html = setMeta(html, 'property', 'og:image:alt', shareImageAlt);
   html = setMeta(html, 'name', 'twitter:title', title);
   html = setMeta(html, 'name', 'twitter:description', description);
   html = setMeta(html, 'name', 'twitter:image', shareImage);
+  html = setMeta(html, 'name', 'twitter:image:alt', shareImageAlt);
   html = setMeta(html, 'name', 'twitter:card', 'summary_large_image');
   if (!/<link\s+rel=["']canonical["']/i.test(html)) html = html.replace('</head>', `  <link rel="canonical" href="${escapeHtml(canonical)}"/>\n</head>`);
   else html = html.replace(/<link\s+rel=["']canonical["'][^>]*>/i, `<link rel="canonical" href="${escapeHtml(canonical)}"/>`);
   const pathname = route;
   const markup = renderToString(createElement(App, {pathname, search:''}));
   html = html.replace('<div id="root"></div>', `<div id="root">${markup}</div>`);
-  const schema = [orgSchema, {'@context':'https://schema.org','@type':'WebPage','name':title,'description':description,'url':canonical,'isPartOf':{'@type':'WebSite','name':'AGRONEX CROP CARE','url':siteUrl}}];
-  const product = routeProduct;
-  if (product) {
-    schema.push({'@context':'https://schema.org','@type':'Product','name':product.name,'description':`${product.benefit}. Suitable crops: ${product.crops}. Targets: ${product.target}.`,'category':product.category,'image':`${siteUrl}/assets/products/${product.image}.png`,'brand':{'@type':'Brand','name':'AGRONEX CROP CARE'},'additionalProperty':[
-      {'@type':'PropertyValue','name':'Formulation','value':product.formula},
-      {'@type':'PropertyValue','name':'Suitable crops','value':product.crops},
-      {'@type':'PropertyValue','name':'Targets','value':product.target},
-      {'@type':'PropertyValue','name':'Dose per 15L water','value':product.dose},
-      {'@type':'PropertyValue','name':'Pack sizes','value':product.pack}
-    ]});
+  const schema = [orgSchema, {'@context':'https://schema.org','@type':'WebSite','@id':`${siteUrl}/#website`,'name':'AGRONEX CROP CARE','url':siteUrl,'publisher':{'@id':`${siteUrl}/#organization`}}, {'@context':'https://schema.org','@type':'WebPage','@id':`${canonical}#webpage`,'name':title,'description':description,'url':canonical,'isPartOf':{'@id':`${siteUrl}/#website`}}];
+  if (routeProduct) {
     schema.push({'@context':'https://schema.org','@type':'BreadcrumbList','itemListElement':[
       {'@type':'ListItem','position':1,'name':'Home','item':siteUrl},
       {'@type':'ListItem','position':2,'name':'Products','item':`${siteUrl}/products`},
-      {'@type':'ListItem','position':3,'name':product.name,'item':canonical}
+      {'@type':'ListItem','position':3,'name':routeProduct.name,'item':canonical}
     ]});
   }
   const category = categoryData.find(([name]) => route === `/products/${name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}`);
@@ -103,6 +99,13 @@ for (const [route, title, description] of pages) {
       {'@type':'ListItem','position':1,'name':'Home','item':siteUrl},
       {'@type':'ListItem','position':2,'name':'Products','item':`${siteUrl}/products`},
       {'@type':'ListItem','position':3,'name':category[0],'item':canonical}
+    ]});
+  }
+  const coreBreadcrumbName = {'/about':'About','/products':'Products','/crop-solutions':'Crop Solutions','/dealer-network':'Dealer Network','/contact':'Contact'}[route];
+  if (coreBreadcrumbName) {
+    schema.push({'@context':'https://schema.org','@type':'BreadcrumbList','itemListElement':[
+      {'@type':'ListItem','position':1,'name':'Home','item':siteUrl},
+      {'@type':'ListItem','position':2,'name':coreBreadcrumbName,'item':canonical}
     ]});
   }
   const jsonLd = schema.map((item,index) => `<script${index===0?' id="agronex-structured-data"':''} type="application/ld+json">${JSON.stringify(item).replaceAll('<','\\u003c')}</script>`).join('');
@@ -114,7 +117,7 @@ for (const [route, title, description] of pages) {
 await ssr.close();
 
 const xmlEscape = value => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-const entries = pages.map(([route]) => `  <url>\n    <loc>${xmlEscape(new URL(route, siteUrl).href)}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`).join('\n');
+const entries = pages.map(([route]) => `  <url>\n    <loc>${xmlEscape(new URL(route, siteUrl).href)}</loc>\n  </url>`).join('\n');
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
 await writeFile(new URL('sitemap.xml', output), sitemap);
 
