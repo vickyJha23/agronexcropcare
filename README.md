@@ -25,7 +25,7 @@ npm run preview
 
 ## Deploy to Netlify
 
-Netlify is configured in `netlify.toml` to run `npm run build` and publish the `dist` directory. The `public/_redirects` file is copied into `dist` so direct visits and refreshes on React routes, such as `/about` and `/dealer-network`, load the app correctly. Netlify builds also create route-specific titles and descriptions, canonical URLs, and a sitemap using the deployed site URL.
+Netlify is configured in `netlify.toml` to run `npm run build`, publish `dist`, and serve the app for direct React Router URLs.
 
 ## Site pages
 
@@ -41,9 +41,7 @@ Product details and pack images use the provided AGRONEX materials. Photography 
 
 ## Search indexing setup
 
-Production builds create static HTML for each public page and product route, including unique titles, descriptions, canonicals, Open Graph and Twitter metadata, JSON-LD, and the XML sitemap. Product pages are linked from the catalog; catalog category links preselect the corresponding filter. `public/robots.txt` allows crawling, and the production sitemap generator adds the deployed sitemap URL.
-
-For a production build, make sure Netlify's `URL` environment variable is the canonical HTTPS site origin, or set `VITE_SITE_URL` to that origin. The sitemap is published at `/sitemap.xml`; crawler rules are at `/robots.txt`. Submit the live sitemap in Google Search Console after deployment.
+`RouteMetadata` sets page titles, descriptions, canonicals, Open Graph and Twitter metadata, and JSON-LD in the browser. The static `public/sitemap.xml` lists public routes and `public/robots.txt` points crawlers to it. Update both files when routes are added or removed. The canonical domain is `https://www.agronexcropcare.com`. Submit `/sitemap.xml` in Google Search Console after deployment.
 
 ### Google Search Console
 
