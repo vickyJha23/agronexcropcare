@@ -385,6 +385,62 @@ export function About() {
             </div>
           </article>
         </section>
+        <section className="section research-section">
+          <div className="research-copy">
+            <Eyebrow>OUR RESEARCH TEAM</Eyebrow>
+            <h2>
+              Research for <em>healthier agriculture.</em>
+            </h2>
+            <p>
+              At AGRONEX CROP CARE, our research team is committed to supporting
+              modern agriculture through scientific thinking, continuous
+              research, and a focus on crop health and soil sustainability.
+            </p>
+            <p>
+              Our team explores innovative agricultural solutions, studies crop
+              protection challenges, works to improve soil health, and develops
+              products designed for farmers’ evolving needs. We emphasize
+              product research, quality, and responsible agricultural practices
+              to support sustainable farming.
+            </p>
+            <p>
+              Through continuous learning, field-oriented research, and a
+              commitment to innovation, we aim to contribute to healthier crops,
+              improved soil conditions, and better agricultural outcomes.
+            </p>
+            <div className="research-vision">
+              <small>OUR VISION</small>
+              <p>
+                To promote innovative, reliable, and sustainable agricultural
+                solutions that support crop health, healthy soil, and better
+                outcomes for farmers.
+              </p>
+            </div>
+          </div>
+          <div className="research-gallery">
+            <img
+              className="research-gallery-wide"
+              src="/assets/research-team/research-team-office.jpeg"
+              alt="AGRONEX team working together in the crop-care office"
+              loading="lazy"
+            />
+            <img
+              src="/assets/research-team/research-lab.jpeg"
+              alt="Agricultural researchers studying crop and soil samples"
+              loading="lazy"
+            />
+            <img
+              src="/assets/research-team/research-office.jpeg"
+              alt="AGRONEX crop-care office and team workspace"
+              loading="lazy"
+            />
+            <img
+              src="/assets/research-team/agronex-office-logo.jpeg"
+              alt="AGRONEX CROP CARE logo displayed at the office"
+              loading="lazy"
+            />
+          </div>
+        </section>
       </main>
     </Shell>
   );
@@ -502,13 +558,13 @@ export function ProductsPage({ search = "", initialCategory = "All" }) {
             <span>
               {shown.length} of {products.length} products
             </span>
-            <Link
+            <a
               className="catalog-download"
-              to ="/assets/agronex-catalog.pdf"
-              download
+              href="/assets/agronex-catalog.pdf"
+              download="agronex-catalog.pdf"
             >
               <Download size={16} /> Download catalog
-            </Link>
+            </a>
           </div>
           {shown.length ? (
             <div className="product-grid catalog-products">

@@ -170,3 +170,22 @@
 .product-visual,.modal-product-photo,.detail-art{background:linear-gradient(145deg,color-mix(in srgb,var(--pack-bg,#e8eee2),white 20%),var(--pack-bg,#e8eee2));}
 .product-visual{border-bottom:3px solid var(--pack-accent,#477148);}
 .product-visual:before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 92%,color-mix(in srgb,var(--pack-accent,#477148),transparent 84%),transparent 61%);pointer-events:none;}
+
+/* About page research team */
+.research-section{padding-top:80px}
+.research-copy{max-width:820px}
+.research-copy h2{margin-bottom:24px}
+.research-copy>p{max-width:760px;font-size:14px;color:var(--muted);line-height:1.85;margin:0 0 18px}
+.research-vision{margin-top:30px;padding:22px 25px;border-left:3px solid #73934d;background:#edf0e8}
+.research-vision small{font-size:10px;font-weight:700;letter-spacing:.16em;color:var(--green)}
+.research-vision p{margin:9px 0 0;font:600 17px/1.65 Manrope,sans-serif;color:var(--ink)}
+.research-gallery{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:13px;margin-top:48px}
+.research-gallery img{display:block;width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px}
+.research-gallery .research-gallery-wide{grid-column:1/-1;aspect-ratio:16/7}
+@media(max-width:700px){.research-section{padding-top:55px}.research-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:30px}.research-gallery .research-gallery-wide{aspect-ratio:4/3}.research-vision{padding:18px}.research-vision p{font-size:15px}}
+
+/* Keep About leadership cards inside the founders grid */
+.founders{width:100%;min-width:0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.founders>.leader-card{min-width:0}
+.founders .leader-card strong{overflow-wrap:anywhere}
+.founders .founder-initial{flex:0 0 60px;width:60px;height:60px;aspect-ratio:1}
