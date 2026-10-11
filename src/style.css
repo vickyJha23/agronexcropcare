@@ -189,7 +189,7 @@
 .founders>.leader-card{min-width:0}
 .founders .leader-card strong{overflow-wrap:anywhere}
 .founders .founder-initial{flex:0 0 60px;width:60px;height:60px;aspect-ratio:1}
-@media(max-width:760px){.founders{grid-template-columns:minmax(0,1fr)}.founders-heading{grid-column:auto}.founders .leader-card{padding:21px;gap:14px}.founders .founder-initial{flex:0 0 48px;width:48px;height:48px;font-size:11px}}
+@media(max-width:760px){.founders{grid-template-columns:minmax(0,1fr)}.founders-heading{grid-column:auto}.founders .leader-card{padding:21px;gap:14px;flex-direction:column;align-items:flex-start}.founders .leader-card>div{width:100%}.founders .founder-initial{flex:0 0 48px;width:48px;height:48px;font-size:11px}}
 
 /* Tablet layouts: keep the full navigation and page grids from getting cramped. */
 @media (min-width:701px) and (max-width:850px){
