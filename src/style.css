@@ -189,3 +189,41 @@
 .founders>.leader-card{min-width:0}
 .founders .leader-card strong{overflow-wrap:anywhere}
 .founders .founder-initial{flex:0 0 60px;width:60px;height:60px;aspect-ratio:1}
+@media(max-width:760px){.founders{grid-template-columns:minmax(0,1fr)}.founders-heading{grid-column:auto}.founders .leader-card{padding:21px;gap:14px}.founders .founder-initial{flex:0 0 48px;width:48px;height:48px;font-size:11px}}
+
+/* Tablet layouts: keep the full navigation and page grids from getting cramped. */
+@media (min-width:701px) and (max-width:850px){
+  .header{padding-left:5%;padding-right:5%}
+  .mobile-toggle{display:grid}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;padding:22px 6% 28px;background:#f7f8f2;color:var(--ink);box-shadow:0 15px 25px #13251c14;align-items:stretch;flex-direction:column;gap:19px}
+  .nav.open{display:flex}
+  .nav>a{font-size:13px}
+  .nav .nav-cta{width:max-content;margin-top:2px;border-color:#bec9bd}
+  .section{padding-left:7%;padding-right:7%}
+  .category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .category-card{height:280px}
+  .about-page,.solution-list,.dealer-page,.detail-layout,.contact-layout{grid-template-columns:1fr;gap:35px}
+  .about-page-photo{height:420px}
+  .detail-art{height:390px}
+  .solution-list>img{height:360px;order:1}
+  .solution-list>div{order:0}
+  .contact-layout{padding-top:35px}
+  .dealer-application{padding:80px 7%;grid-template-columns:1fr;gap:28px}
+  .dealer-form{max-width:none}
+  .dealer-benefits{padding-left:7%;padding-right:7%;gap:12px}
+  .footer{padding-left:7%;padding-right:7%}
+  .footer-top{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 24px}
+  .footer-brand,.footer-contact{grid-column:1/-1}
+}
+
+@media(max-width:380px){
+  .brand{gap:7px;font-size:12px;letter-spacing:.06em}
+  .brand-art{width:96px;height:48px}
+  .hero h1{font-size:54px}
+  .hero-actions{align-items:flex-start;flex-direction:column}
+  .category-card{height:215px;padding:11px}
+  .category-card h3{font-size:16px}
+  .product-visual{height:175px}
+  .product-info h3{font-size:12px}
+  .assistant-widget{right:10px;bottom:10px}
+}
